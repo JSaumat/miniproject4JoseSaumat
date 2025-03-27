@@ -10,6 +10,14 @@ from django.shortcuts import get_object_or_404, redirect
 
 from django.db.models import F
 
+from django.contrib.auth import login, authenticate, logout
+
+from .forms import RegisterForm, LoginForm
+
+from django.contrib import messages
+
+from django.shortcuts import redirect
+
 from django.http import HttpResponse
 
 from django.conf import settings
@@ -67,3 +75,38 @@ def vote_movie(request, movie_id):
     request.session['voted'] = movie.title  # ✅ set session key
     return redirect('movies:index')  # Go back to home page
 
+# Adds the registration view
+def register_user(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            messages.success(request, 'Registration successful. Please log in.')
+            return redirect('movies:login')
+    else:
+        form = RegisterForm()
+    return render(request, 'movies/register.html', {'form': form})
+
+# Adds the log-in user view
+def login_user(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            if user:
+                login(request, user)
+                return redirect('movies:index')
+    else:
+        form = LoginForm()
+    return render(request, 'movies/login.html', {'form': form})
+
+# Adds the log-out user view
+def logout_user(request):
+    logout(request)
+    return redirect('movies:index')

@@ -10,6 +10,12 @@ urlpatterns = [
 
     path('vote/<int:movie_id>/', views.vote_movie, name='vote_movie'),
 
+    path('register/', views.register_user, name='register'),
+
+    path('login/', views.login_user, name='login'),
+
+    path('logout/', views.logout_user, name='logout'),
+
     # Test to check if API key was working
     #path('test-api/', views.test_api_key, name='test_api'),
 
