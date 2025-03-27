@@ -52,7 +52,11 @@ def search_movie(request):
 # Adds the movie view in index
 def index(request):
     movies = Movie.objects.all().order_by('-release_date')
-    return render(request, 'movies/index.html', {'movies': movies})
+    voted_movie = request.session.pop('voted', None)  # ✅ get + clear session
+    return render(request, 'movies/index.html', {
+        'movies': movies,
+        'voted_movie': voted_movie
+    })
 
 # Adds the voting view
 def vote_movie(request, movie_id):
@@ -60,5 +64,6 @@ def vote_movie(request, movie_id):
     movie.vote_count = F('vote_count') + 1
     movie.save()
     movie.refresh_from_db()  # Refresh to get updated vote_count
+    request.session['voted'] = movie.title  # ✅ set session key
     return redirect('movies:index')  # Go back to home page
 
