@@ -116,6 +116,10 @@ def login_user(request):
     return render(request, 'movies/login.html', {'form': form})
 
 # Adds the log-out user view
-def logout_user(request):
+def logout_view(request):
     logout(request)
-    return redirect('movies:index')
+    return redirect("movies:logged_out")
+
+# Adds logged out page confirmation
+def logged_out_view(request):
+    return render(request, "movies/logged_out.html")

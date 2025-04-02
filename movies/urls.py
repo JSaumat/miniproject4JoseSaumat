@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 app_name = 'movies'
 
@@ -14,7 +15,9 @@ urlpatterns = [
 
     path('login/', views.login_user, name='login'),
 
-    path('logout/', views.logout_user, name='logout'),
+    path("logout/", views.logout_view, name="logout"),
+
+    path("logged_out/", views.logged_out_view, name="logged_out"),
 
     # Test to check if API key was working
     #path('test-api/', views.test_api_key, name='test_api'),
