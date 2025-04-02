@@ -37,9 +37,11 @@ body {
 
 /* Keep poster size consistent */
 .card-img-top {
-    max-height: 360px;
-    object-fit: cover;
-    margin: 0 auto; /* centers the image */
+    max-height: 500px;
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
     display: block;
 }
 
