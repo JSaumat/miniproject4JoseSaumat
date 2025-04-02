@@ -46,14 +46,16 @@ def search_movie(request):
     message = ""
 
     if request.method == "POST":
-        form = MovieSearchForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data["title"]
+        # Handles submission from either the MovieSearchForm or the navbar input
+        title = request.POST.get("title")
+        if title:
             movie = fetch_and_save_movie(title)
             if movie:
                 message = f"Movie '{movie.title}' imported successfully!"
             else:
                 message = "Movie not found or could not be imported."
+        else:
+            message = "Please enter a movie title."
 
     return render(request, "movies/search.html", {"form": form, "message": message})
 
@@ -61,13 +63,20 @@ def search_movie(request):
 def index(request):
     movies = Movie.objects.all().order_by('-release_date')
     voted_movie = request.session.pop('voted', None)  # ✅ get + clear session
+    login_required = request.session.pop('login_required', False)
     return render(request, 'movies/index.html', {
         'movies': movies,
-        'voted_movie': voted_movie
+        'voted_movie': voted_movie,
+        'login_required': login_required
     })
 
 # Adds the voting view
 def vote_movie(request, movie_id):
+    # Requires user to be logged in to vote
+    if not request.user.is_authenticated:
+        request.session['login_required'] = True
+        return redirect('movies:index')
+
     movie = get_object_or_404(Movie, id=movie_id)
     movie.vote_count = F('vote_count') + 1
     movie.save()
