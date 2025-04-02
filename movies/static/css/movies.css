@@ -15,4 +15,37 @@ body {
 
 .vote-btn {
     margin-top: 10px;
+    width: 75%; /* or try 60% for a tighter look */
+}
+
+/* Prevent scaling from breaking layout */
+/* Scale hover effect but keep it inside the grid column */
+.movie-card {
+    transition: transform 0.3s ease;
+    will-change: transform;
+    overflow: hidden;
+    border-radius: 10px; /* rounded corners */
+    padding: 5px;        /* space inside the card */
+    background-color: #ffffff; /* optional: white background */
+}
+
+.movie-card:hover {
+    transform: scale(1.02);
+    z-index: 1;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Keep poster size consistent */
+.card-img-top {
+    max-height: 360px;
+    object-fit: cover;
+    margin: 0 auto; /* centers the image */
+    display: block;
+}
+
+.movie-card .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }

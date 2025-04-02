@@ -4,22 +4,25 @@
 
 {% block content %}
 
-<h1 class="mb-4">🎬 Movie Gallery</h1>
+<h1 class="mb-4 text-center">🎬 Movie Gallery</h1>
 
 {% if movies %}
-  <div class="row">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     {% for movie in movies %}
-      <div class="col-md-3 mb-4">
-        <div class="card h-100">
+      <div class="col">
+        <div class="card h-100 movie-card">
           {% if movie.poster_url %}
-            <img src="{{ movie.poster_url }}" class="card-img-top" alt="{{ movie.title }}">
+            <img src="{{ movie.poster_url }}" class="card-img-top mx-auto d-block" alt="{{ movie.title }}">
           {% endif %}
-          <div class="card-body">
+          <div class="card-body d-flex flex-column align-items-center text-center">
             <h5 class="card-title">{{ movie.title }}</h5>
-            <p class="card-text">{{ movie.release_date }}<br>Votes: {{ movie.vote_count }}</p>
-            <form method="post" action="{% url 'movies:vote_movie' movie.id %}">
+            <p class="card-text">
+              {{ movie.release_date }}<br>
+              Votes: {{ movie.vote_count }}
+            </p>
+            <form method="post" action="{% url 'movies:vote_movie' movie.id %}" class="w-100">
               {% csrf_token %}
-              <button type="submit" class="btn btn-sm btn-success">Vote</button>
+              <button type="submit" class="btn btn-sm btn-success w-100">Vote</button>
             </form>
           </div>
         </div>
@@ -27,8 +30,9 @@
     {% endfor %}
   </div>
 {% else %}
-  <p>No movies found. Try adding some on the <a href="{% url 'movies:search_movie' %}">Search Page</a>.</p>
+  <p class="text-center">No movies found. Try adding some on the <a href="{% url 'movies:search_movie' %}">Search Page</a>.</p>
 {% endif %}
+
 {% endblock %}
 
 {% block extra_js %}
