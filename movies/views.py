@@ -18,9 +18,13 @@ from django.contrib import messages
 
 from django.shortcuts import redirect
 
+from django.contrib.auth.decorators import user_passes_test
+
 from django.http import HttpResponse
 
 from django.conf import settings
+
+from django.core.exceptions import PermissionDenied
 
 # Used to test TMDB API integration
 # from .utils import fetch_and_save_movie
@@ -40,7 +44,14 @@ def index(request):
 #         return HttpResponse(f"Imported movie: {movie.title}")
 #     return HttpResponse("Movie not found.")
 
-# Creates the view to search for movies
+# Checks to make sure user is authorized to access page if not throws 403 error
+def only_admin(user):
+    if not user.is_authenticated or not (user.is_superuser or user.is_staff):
+        raise PermissionDenied
+    return True
+
+# Creates the view to search for movies that only superusers or admins can access
+@user_passes_test(only_admin)
 def search_movie(request):
     form = MovieSearchForm()
     message = ""
