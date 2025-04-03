@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 
 app_name = 'movies'
 
+# Adds url for pages to the site
 urlpatterns = [
     path('', views.index, name='index'),
 
@@ -18,6 +19,8 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
 
     path("logged_out/", views.logged_out_view, name="logged_out"),
+
+    path("about/", views.about_page, name="about"),
 
     # Test to check if API key was working
     #path('test-api/', views.test_api_key, name='test_api'),
