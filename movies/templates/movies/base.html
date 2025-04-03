@@ -11,7 +11,7 @@
 <body>
 
 <!-- Bootstrap 5.3.3 Navbar -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
   <div class="container-fluid">
     <!-- Logo / Brand -->
     <a class="navbar-brand fw-bold fs-4" href="{% url 'movies:index' %}">
@@ -28,12 +28,22 @@
     <div class="collapse navbar-collapse" id="mainNavbar">
 
       <!-- Left side: nav links -->
+
+      <!-- Link to the home page -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'movies:index' %}">
             Home
           </a>
         </li>
+
+      <li class="nav-item">
+          <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'movies:about' %}">
+            About
+          </a>
+      </li>
+
+      <!-- Link to the home page -->
         {% if user.is_authenticated and user.is_staff %}
             <li class="nav-item">
               <a class="nav-link {% if request.path == '/search/' %}active{% endif %}" href="{% url 'movies:search_movie' %}">
@@ -41,6 +51,7 @@
               </a>
             </li>
         {% endif %}
+
       </ul>
 
       <!-- Right side: auth + search form -->

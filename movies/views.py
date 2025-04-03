@@ -134,3 +134,7 @@ def logout_view(request):
 # Adds logged out page confirmation
 def logged_out_view(request):
     return render(request, "movies/logged_out.html")
+
+#Adds about page view
+def about_page(request):
+    return render(request, "movies/about.html")
