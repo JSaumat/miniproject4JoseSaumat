@@ -23,3 +23,6 @@ staticfiles/
 # Python virtual environments
 venv/
 .venv/
+
+# Ignores the original tutorial files in the polls folder
+polls/
