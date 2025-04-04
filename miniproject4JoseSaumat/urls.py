@@ -16,10 +16,16 @@ Including another URLconf
 """
 # from django.contrib import admin
 from django.contrib import admin
+
 from django.urls import include, path
 
+# Main URL patterns Django uses to route requests made
 urlpatterns = [
+
+    # The admin interface which is accessible at /admin/
     path("admin/", admin.site.urls),
+
+    # App level URLs from the movies/urls.py file.
     path('', include('movies.urls')),
 
 ]

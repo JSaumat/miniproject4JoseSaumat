@@ -1,41 +1,45 @@
+# Django imports for handling HTTP requests and handling templates
+
 from django.shortcuts import render
-
-from .forms import MovieSearchForm
-
-from .utils import fetch_and_save_movie
-
-from .models import Movie
 
 from django.shortcuts import get_object_or_404, redirect
 
 from django.db.models import F
 
-from django.contrib.auth import login, authenticate, logout
-
-from .forms import RegisterForm, LoginForm
-
-from django.contrib import messages
-
 from django.shortcuts import redirect
-
-from django.contrib.auth.decorators import user_passes_test
 
 from django.http import HttpResponse
 
-from django.conf import settings
+# Imports custom forms or models
+
+from .forms import MovieSearchForm
+
+from .forms import RegisterForm, LoginForm
+
+from .models import Movie
+
+from .utils import fetch_and_save_movie
+
+# Authentication and Permissions
+
+from django.contrib.auth import login, authenticate, logout
+
+from django.contrib import messages
+
+from django.contrib.auth.decorators import user_passes_test
 
 from django.core.exceptions import PermissionDenied
 
+from django.conf import settings
+
+# Disables CSRF protection for quick API lookups in development
 from django.views.decorators.csrf import csrf_exempt
 
+# Imports the TMDB search utility
 from .tmdb import search_tmdb
 
-# Used to test TMDB API integration
+# Used to test TMDB API integration earlier in development
 # from .utils import fetch_and_save_movie
-
-# Create your views here.
-def index(request):
-    return render(request, 'movies/index.html')
 
 # Test to see if API key was working
 # def test_api_key(request):
@@ -48,27 +52,42 @@ def index(request):
 #         return HttpResponse(f"Imported movie: {movie.title}")
 #     return HttpResponse("Movie not found.")
 
+# Create your views here.
+def index(request):
+
+    return render(request, 'movies/index.html')
+
 # Checks to make sure user is authorized to access page if not throws 403 error
 def only_admin(user):
+
     if not user.is_authenticated or not (user.is_superuser or user.is_staff):
+
         raise PermissionDenied
+
     return True
 
 # Creates the view to search for movies that only superusers or admins can access
 @user_passes_test(only_admin)
 def search_movie(request):
+
     form = MovieSearchForm()
+
     message = ""
 
     if request.method == "POST":
+
         # Handles submission from either the MovieSearchForm or the navbar input
         title = request.POST.get("title")
+
         if title:
             movie = fetch_and_save_movie(title)
+
             if movie:
                 message = f"Movie '{movie.title}' imported successfully!"
+
             else:
                 message = "Movie not found or could not be imported."
+
         else:
             message = "Please enter a movie title."
 
@@ -76,85 +95,122 @@ def search_movie(request):
 
 # Adds the movie view in index
 def index(request):
-    movies = Movie.objects.all().order_by('-release_date')
-    voted_movie = request.session.pop('voted', None)  # ✅ get + clear session
-    login_required = request.session.pop('login_required', False)
+
+    movies = Movie.objects.all().order_by('-release_date') # Shows latest movies first
+
+    voted_movie = request.session.pop('voted', None)  # Shows vote success
+
+    login_required = request.session.pop('login_required', False) # Shows modal requiring log in to vote
+
     return render(request, 'movies/index.html', {
+
         'movies': movies,
         'voted_movie': voted_movie,
         'login_required': login_required
+
     })
 
 # Adds the voting view
 def vote_movie(request, movie_id):
-    # Requires user to be logged in to vote
+
+    # Requires user to be logged in to vote, otherwise blocked
     if not request.user.is_authenticated:
+
         request.session['login_required'] = True
+
         return redirect('movies:index')
 
+    # Updates each movies vote count
     movie = get_object_or_404(Movie, id=movie_id)
-    movie.vote_count = F('vote_count') + 1
+    movie.vote_count = F('vote_count') + 1 # Increments votes by 1
     movie.save()
     movie.refresh_from_db()  # Refresh to get updated vote_count
-    request.session['voted'] = movie.title  # ✅ set session key
+    request.session['voted'] = movie.title  # Shows voted modal
+
     return redirect('movies:index')  # Go back to home page
 
-# Adds the registration view
+# Adds the user registration view
 def register_user(request):
+
     if request.method == 'POST':
+
         form = RegisterForm(request.POST)
+
         if form.is_valid():
+
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
             messages.success(request, 'Registration successful. Please log in.')
+
             return redirect('movies:login')
     else:
+
         form = RegisterForm()
+
     return render(request, 'movies/register.html', {'form': form})
 
-# Adds the log-in user view
+# Adds the user login view
 def login_user(request):
+
     if request.method == 'POST':
+
         form = LoginForm(request, data=request.POST)
+
         if form.is_valid():
+
             user = authenticate(
                 request,
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
+
             if user:
+
                 login(request, user)
                 return redirect('movies:index')
+
     else:
+
         form = LoginForm()
+
     return render(request, 'movies/login.html', {'form': form})
 
 # Adds the log-out user view
 def logout_view(request):
+
     logout(request)
+
     return redirect("movies:logged_out")
 
-# Adds logged out page confirmation
+# Adds logged out page confirmation view
 def logged_out_view(request):
+
     return render(request, "movies/logged_out.html")
 
 #Adds about page view
 def about_page(request):
+
     return render(request, "movies/about.html")
 
-# Adds a lookup to search without adding to the index page
+# Adds a lookup to search TMDB without adding to the index voting page
 @csrf_exempt
 def quick_lookup(request):
+
     results = []
     query = ""
 
     if request.method == "POST":
+
         query = request.POST.get("title")
+
         if query:
+
             results = search_tmdb(query)
 
     return render(request, "movies/quick_lookup_results.html", {
+
         "results": results,
         "query": query
+
     })
