@@ -65,12 +65,10 @@
         {% endif %}
 
         <!-- Inline search form -->
-        <form class="d-flex ms-2" method="post" action="{% url 'movies:search_movie' %}">
+        <form class="d-flex ms-2" method="post" action="{% url 'movies:quick_lookup' %}">
           {% csrf_token %}
-          <input class="form-control form-control-sm me-2" type="search" name="title" placeholder="Search TMDB" aria-label="Search">
-          <button class="btn btn-outline-secondary btn-sm" type="submit">
-            <i class="bi bi-search"></i>
-          </button>
+          <input class="form-control me-2" type="search" name="title" placeholder="Search TMDB" aria-label="Search">
+          <button class="btn btn-outline-primary" type="submit">Search</button>
         </form>
       </div>
 

@@ -26,6 +26,10 @@ from django.conf import settings
 
 from django.core.exceptions import PermissionDenied
 
+from django.views.decorators.csrf import csrf_exempt
+
+from .tmdb import search_tmdb
+
 # Used to test TMDB API integration
 # from .utils import fetch_and_save_movie
 
@@ -138,3 +142,19 @@ def logged_out_view(request):
 #Adds about page view
 def about_page(request):
     return render(request, "movies/about.html")
+
+# Adds a lookup to search without adding to the index page
+@csrf_exempt
+def quick_lookup(request):
+    results = []
+    query = ""
+
+    if request.method == "POST":
+        query = request.POST.get("title")
+        if query:
+            results = search_tmdb(query)
+
+    return render(request, "movies/quick_lookup_results.html", {
+        "results": results,
+        "query": query
+    })

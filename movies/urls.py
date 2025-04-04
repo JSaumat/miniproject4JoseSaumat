@@ -22,6 +22,8 @@ urlpatterns = [
 
     path("about/", views.about_page, name="about"),
 
+    path("quick-lookup/", views.quick_lookup, name="quick_lookup"),
+
     # Test to check if API key was working
     #path('test-api/', views.test_api_key, name='test_api'),
 
