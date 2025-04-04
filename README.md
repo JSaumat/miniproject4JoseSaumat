@@ -1,4 +1,4 @@
-# miniproject3JoseSaumat
+# miniproject4JoseSaumat
 
 ### INF601 - Advanced Programming in Python
 ### Jose Saumat
@@ -9,11 +9,12 @@
 
 ## Description
 
-This project will be using a combination of Flaskr, BootStrap, HTML, and CSS to create a mini website.
+This project will be using a combination of Django, BootStrap, HTML/Jinja, and CSS to create a mini website.
 
 ## Getting Started
 
-First clone the repository into your preferred IDE. Make sure to also create a virtual environment for the project.
+First clone the repository into your preferred IDE. Make sure to also create a virtual environment for the project if 
+your IDE does not automatically create one for you.
 
 ### Dependencies
 
@@ -25,7 +26,9 @@ pip install -r requirements.txt
 Step 2: Initialize the SQL database. Copy and paste the code below into the terminal.
 
 ```
-flask --app flaskr init-db 
+python manage.py makemigrations (this will create any SQL entries that need to go into the database)
+python manage.py migrate (this will apply the migrations)
+python manage.py createsuperuser (this will create the administrator login for your /admin side of the project)
 ```
 
 ### Executing program
@@ -33,23 +36,33 @@ flask --app flaskr init-db
 Step 3: Run the program. Copy and paste the code below into the terminal.
 
 ```
-flask --app flaskr run
+python manage.py runserver
+
+or
+
+Click the Play button in your IDE.
 ```
 
 Step 4: In your terminal you should now see a hyperlink with the address below. Click that link to launch website in browser.
 
 ```
-http://127.0.0.1:5000
+http://127.0.0.1:8000
 ```
 
 ### Output
 
-This website should first display a modal asking you to confirm your age. If you are older than 18, you are allowed through.
-If you are under 18, it will redirect you to Google.com because this website contains trailers for R rated movies. The site
-will then display my top 10 favorite movies. When you click on the image tiles, it should redirect you to a YouTube page that 
-contains that movie's trailer. You can also read the about page which contains a brief description of the site along with credit
-for TMDB's use of their API for the movie posters. Then finally a blog where the community can comment. In order to post, 
-you must register. The site also contains a fully functional registration, log in, and log out page.
+For The Regular User:
+
+This website should take you to the home page where you should be able to vote on movies. In order to vote, you must register.
+The site also contains a fully functional registration, log in, and log out page. You can also read the about page which contains a 
+brief description of the site along with credit for TMDB's use of their API, and it doubles as a link to their site. The search bar
+in the navigation menu allows you to use TMDB's API to search for movies in their API without adding them to the home page for voting.
+
+For Admin User:
+
+You have access to everything above, but you also gain access to the Add Movie and Admin pages. The Add Movie page will allow you
+to add movies that the regular users can vote on. The Admin page will let you see a list of movies, the users, and set access for
+different groups.
 
 ## Authors
 
@@ -61,16 +74,16 @@ Contributors names and contact info
 ## Acknowledgments
 
 Inspiration, code snippets, etc.
-* [Jason Zeller](https://www.youtube.com/watch?v=mLS4_r_0VnE)
-* [Jason Zeller](https://www.youtube.com/watch?v=7ckzzrLdqZc)
-* [Jason Zeller](https://www.youtube.com/watch?v=WuT-bi6ctjc)
-* [Jason Zeller](https://www.youtube.com/watch?v=mqsUg5kCghE)
-* [Jason Zeller](https://www.youtube.com/watch?v=Fk1BXTtCejQ)
-* [Jason Zeller](https://www.youtube.com/watch?v=hgksEFTvvUs)
+* [Jason Zeller](https://www.youtube.com/watch?v=lo5atoJdNX8)
+* [Jason Zeller](https://www.youtube.com/watch?v=piyfP2NLp9A)
+* [Jason Zeller](https://www.youtube.com/watch?v=UB7XFf0Q_M4)
+* [Jason Zeller](https://www.youtube.com/watch?v=lSqCJqnwCb8&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=17)
+* [Jason Zeller](https://www.youtube.com/watch?v=KPx2F812vGc&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=20)
+* [Jason Zeller](https://www.youtube.com/watch?v=VHkIzFJCU-0&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=20)
 
 API and Package documentation
 * [TMDB API](https://www.themoviedb.org/)
-* [Flask](https://flask.palletsprojects.com/en/stable/)
+* [Django](https://docs.djangoproject.com/en/5.2/intro/tutorial01/)
 * [Jinja](https://jinja.palletsprojects.com/en/stable/)
 * [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 * [W3 Schools HTML](https://www.w3schools.com/html/default.asp)
