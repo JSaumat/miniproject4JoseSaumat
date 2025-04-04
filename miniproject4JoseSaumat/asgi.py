@@ -11,6 +11,8 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+# Sets the default settings for the Django project
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'miniproject4JoseSaumat.settings')
 
+# Creates the ASGI application instance
 application = get_asgi_application()
