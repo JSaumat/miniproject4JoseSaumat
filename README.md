@@ -41,7 +41,7 @@ python manage.py migrate
 
 C. This will create the administrator login for your /admin side of the project
 ```
-python manage.py createsuperuser (this will create the administrator login for your /admin side of the project)
+python manage.py createsuperuser
 ```
 
 ### Executing program
