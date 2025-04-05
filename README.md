@@ -56,30 +56,31 @@ or
 Click the Play button in your IDE.
 ```
 
-Step 4: In your terminal you should now see a hyperlink with the address below. Click that link to launch website in browser.
+Step 4: In your terminal you should now see a hyperlink with the address below. Click that link to launch the website in browser,
+or paste the line below into a browser.
 
 ```
 http://127.0.0.1:8000
 ```
 Step 5: Set up the site for regular users
 
-When you first access the site, the home page will not have any movies to vote on. You will need to log in as the super user/admin, 
-then click on 'Add Movie' in the navigation bar. This will take you to a page that says 'Import a Movie'. Type in the name of
-a favorite movie you have seen, and then click on 'Import'. This will add a movie that can be voted on by users on the home page.
+When you first access the site, the Home page movie gallery will not have any movies to vote on. You will need to log in as the super user/admin, then click on 'Add Movie' in the navigation bar. This will take you to a page that says 'Import Movie'. Type in the name of
+a favorite movie you have seen, and then click on 'Import'. This will add a movie that can be voted on by all users on the home page.
 
 If you need ideas, you can use the search bar on the far right of the navigation bar. This search bar allows all users to look up
 movies using the TMDB API. 
 
 ### Output
 
+Once everything is set up...
+
 For The Regular User:
 
 This website should take you to the home page where you should be able to vote on movies. In order to vote, you must register and be 
-logged in. If you try to vote before you are logged in a modal will appear asking you to log in for voting. The site also contains a 
-fully functional registration, log in, and log out page. It will also confirm you have logged out. You can also read the about page 
-which contains a brief description of the site along with credit for TMDB's use of their API, and it doubles as a link to their site. 
-The search bar in the navigation menu allows you to use TMDB's API to search for movies in their API without adding them to the home 
-page for voting.
+logged in. If you try to vote before you are logged in, a modal will appear asking you to log in for voting. The site also contains a 
+fully functional registration, log in, and logged out page. You can also read the About page which contains a brief description of the 
+site along with credit for TMDB's use of their API, and it doubles as a link to their site. The search bar in the navigation menu allows 
+you to use TMDB's API to search for movies in their API without adding them to the home page for voting.
 
 For Admin User:
 
