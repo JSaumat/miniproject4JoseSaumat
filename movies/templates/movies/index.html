@@ -35,7 +35,7 @@
 
             </p>
 
-            <form method="post" action="{% url 'movies:vote_movie' movie.id %}" class="w-100">
+            <form method="post" action="{% url 'movies:vote_movie' movie.id %}" class="w-100 mt-auto"> <!-- mt-auto uses flexbox to push vote button to bottom -->
 
               {% csrf_token %}
 

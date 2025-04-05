@@ -154,12 +154,14 @@ def register_user(request):
 
         if form.is_valid():
 
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            messages.success(request, 'Registration successful. Please log in.')
+            form.save()
+
+            # Set flag for modal if registration successful
+            request.session['registered'] = True
+            return redirect('movies:login')
 
             return redirect('movies:login')
+
     else:
 
         form = RegisterForm()
@@ -176,21 +178,36 @@ def login_user(request):
         if form.is_valid():
 
             user = authenticate(
+
                 request,
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
-
             if user:
 
                 login(request, user)
+
                 return redirect('movies:index')
+
+        # Set flag for modal display if login fails
+        request.session['login_failed'] = True
+        return redirect('movies:login')
 
     else:
 
         form = LoginForm()
 
-    return render(request, 'movies/login.html', {'form': form})
+    # Clear the session flag after displaying modal
+    login_failed = request.session.pop('login_failed', None)
+    registered = request.session.pop('registered', None)
+
+    return render(request, 'movies/login.html', {
+
+        'form': form,
+        'login_failed': login_failed,  # <-- send to template context
+        'registered': registered
+
+    })
 
 # Adds the log-out user view
 def logout_view(request):

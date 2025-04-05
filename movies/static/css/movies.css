@@ -33,6 +33,11 @@ body {
     border-radius: 10px; /* rounded corners */
     padding: 5px;        /* space inside the card */
     background-color: #ffffff; /* white card background */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    min-height: 620px; /* forces visual height consistency */
 }
 
 /* Movie card container styling for hover */
@@ -59,6 +64,10 @@ body {
     flex-direction: column;
     align-items: center; /* center all content */
     text-align: center;
+    flex-grow: 1;
+    justify-content: space-between;
+    padding: 1rem;
+
 }
 
 /* Custom navigation bar setup could use later for a dark theme toggle*/
@@ -93,7 +102,7 @@ body {
     font-size: 1rem; /* readable sizing */
 }
 
-/* Navigation base, branding, and buttons */
+/* Navigation base, branding, and buttons for link */
 .navbar .nav-link {
     font-weight: 500;
     padding-left: 1rem;
@@ -101,23 +110,23 @@ body {
     transition: color 0.3s ease;
 }
 
-/* Navigation base, branding, and buttons */
+/* Navigation base, branding, and buttons for hover*/
 .navbar .nav-link:hover {
     color: #0d6efd; /* Bootstrap primary color blue */
 }
 
-/* Navigation base, branding, and buttons */
+/* Navigation base, and branding */
 .navbar-brand {
-    font-family: 'Segoe UI', sans-serif; /* modern look *
+    font-family: 'Segoe UI', sans-serif; /* modern look */
     letter-spacing: 1px;
 }
 
-/* Navigation base, branding, and buttons */
+/* Navigation base, and buttons */
 .navbar .btn {
     padding: 6px 14px;
     font-weight: 500;
 }
-    /* Navigation base, branding, and buttons */
+    /* Navigation base, branding, and buttons alignment */
 .navbar-nav .nav-item {
     margin-bottom: 0 !important; /* ensure items align horizontally */
-}}
+}

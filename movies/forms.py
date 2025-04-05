@@ -25,12 +25,21 @@ from django.contrib.auth.forms import AuthenticationForm
 # Movie search form
 class MovieSearchForm(forms.Form):
 
-    title = forms.CharField(label='Movie Title', max_length=100)
+    title = forms.CharField(
+        max_length=100,
+        label="Movie Title",
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
 
 # Registration form
 class RegisterForm(forms.ModelForm):
 
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     # User class which takes username, email, and password
     class Meta:
@@ -41,5 +50,11 @@ class RegisterForm(forms.ModelForm):
 # Log-in form
 class LoginForm(AuthenticationForm):
 
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label="Username"
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Password"
+    )
