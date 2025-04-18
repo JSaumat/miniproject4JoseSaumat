@@ -154,12 +154,16 @@ def register_user(request):
 
         if form.is_valid():
 
+            # Prevents from writing to DB
+            user = form.save(commit=False)
+
+            # Hashes the users password
+            user.set_password(form.cleaned_data['password'])
+
             form.save()
 
             # Set flag for modal if registration successful
             request.session['registered'] = True
-            return redirect('movies:login')
-
             return redirect('movies:login')
 
     else:
